@@ -32,7 +32,7 @@ public class ScoreBoard implements IScoreBoard {
         if (games.containsKey(key)) {
             games.remove(key);
         } else {
-            throw new IllegalStateException(" Match not found");
+            throw new NoSuchElementException(" Match not found");
         }
     }
 
@@ -50,7 +50,7 @@ public class ScoreBoard implements IScoreBoard {
     @Override
     public List<Game> getSummary() {
         return games.values().stream()
-                .sorted(Comparator.comparingInt(Game::numberOfGoals).reversed()
+                .sorted(Comparator.comparingInt(Game::numberOfGoals)
                         .thenComparing(Game::getStartTime).reversed())
                 .toList();
     }

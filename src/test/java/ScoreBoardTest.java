@@ -3,6 +3,8 @@ import org.example.ScoreBoard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.NoSuchElementException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class ScoreBoardTest {
@@ -38,8 +40,8 @@ public class ScoreBoardTest {
 
         Game game = board.getSummary().getFirst();
         assertAll(
-                () -> assertEquals("Mexico",  game.getHomeTeam()),
-                () -> assertEquals("Canada",  game.getAwayTeam()),
+                () -> assertEquals("Mexico", game.getHomeTeam()),
+                () -> assertEquals("Canada", game.getAwayTeam()),
                 () -> assertEquals(0, game.getHomeScore()),
                 () -> assertEquals(0, game.getAwayScore())
         );
@@ -57,4 +59,20 @@ public class ScoreBoardTest {
                 () -> assertEquals(5, board.getSummary().getFirst().getAwayScore())
         );
     }
+
+    @Test
+    void startGame_shouldThrowErrorWhenBothTeamsAreTheSame() {
+        assertThrows(IllegalArgumentException.class, () -> board.startGame("Mexico", "Mexico"));
+    }
+
+    @Test
+    void updateScore_shouldThrowErrorWhenMatchNotExists() {
+        assertThrows(NoSuchElementException.class, () -> board.updateScore("America", "Poland", 0, 3));
+    }
+
+    @Test
+    void finishGame_shouldThrowErrorWhenMatchNotExists() {
+        assertThrows(NoSuchElementException.class, () -> board.finishGame("Poland", "England"));
+    }
+
 }
