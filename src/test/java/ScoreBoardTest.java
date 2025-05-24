@@ -1,4 +1,5 @@
 import org.example.Game;
+import org.example.ScoreBoard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -6,11 +7,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ScoreBoardTest {
 
-    private ScoreBoard scoreBoard;
+    private ScoreBoard board;
 
     @BeforeEach
     void setUp() {
-        scoreBoard = new ScoreBoard();
+        board = new ScoreBoard();
     }
 
     @Test
@@ -28,7 +29,7 @@ public class ScoreBoardTest {
         board.startGame("Spain", "Brazil");
         board.finishGame("Spain", "Brazil");
 
-        assertTrue(board.getSummary().isNull());
+        assertTrue(board.getSummary().isEmpty());
     }
 
     @Test
@@ -41,6 +42,19 @@ public class ScoreBoardTest {
                 () -> assertEquals("Canada",  game.getAwayTeam()),
                 () -> assertEquals(0, game.getHomeScore()),
                 () -> assertEquals(0, game.getAwayScore())
+        );
+    }
+
+    @Test
+    void getSummary_returnsSummary() {
+        board.startGame("Mexico", "Canada");
+        board.updateScore("Mexico", "Canada", 0, 5);
+
+        assertAll(
+                () -> assertEquals("Mexico", board.getSummary().getFirst().getHomeTeam()),
+                () -> assertEquals("Canada", board.getSummary().getFirst().getAwayTeam()),
+                () -> assertEquals(0, board.getSummary().getFirst().getHomeScore()),
+                () -> assertEquals(5, board.getSummary().getFirst().getAwayScore())
         );
     }
 }

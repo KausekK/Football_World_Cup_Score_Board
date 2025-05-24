@@ -56,4 +56,15 @@ public class Game {
     public LocalDateTime getStartTime() {
         return startTime;
     }
+
+    @Override
+    public String toString() {
+        return "Game{" +
+                "homeTeam='" + homeTeam + '\'' +
+                ", awayTeam='" + awayTeam + '\'' +
+                ", homeScore=" + homeScore +
+                ", awayScore=" + awayScore +
+                ", startTime=" + startTime +
+                '}';
+    }
 }
